@@ -9,7 +9,7 @@
 	    </li>
 		<th:block th:each="page: ${#numbers.sequence(startPage,endPage)}">	
 	    	<li th:classappend="${nowPage==page}?'active'"  class="page-item">
-	    		<a class="page-link" th:href="@{./{page}(page=${page},sort=${param.sort},desc=${param.desc})}" th:text="${page}"></a>
+	    		<a class="page-link" th:href="@{./{page}(page=${page},sort=${param.sort},desc=${param.desc},searchKeyword=${param.searchKeyword})}" th:text="${page}"></a>
 	    	</li>
 		</th:block>
 	    <li  th:classappend="${!hasNext}?'disabled'" class="page-item">
@@ -17,4 +17,8 @@
 	    </li>
 	  </ul>
 	</nav>
+	<form th:action="@{/item/list/1}" method="get">
+            <input type="text" name="searchKeyword">
+            <button type="submit">검색</button>
+        </form>
 </html>

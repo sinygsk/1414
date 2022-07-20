@@ -23,6 +23,8 @@ public interface ItemRepository extends CrudRepository<ItemVo, Integer>{
 
 	public Page<ItemVo> findAll(Pageable pageable);
 
+	public Page<ItemVo> findByTitleContaining(String searchKeyword, Pageable pageable);
+
 	//public Iterable<ItemVo> findAllByOrderByItemNum(Pageable pageable); 
 
 }

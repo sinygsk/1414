@@ -68,18 +68,26 @@ public class ItemController {
 	public String pageableList( @PathVariable int page,
 								@RequestParam(defaultValue = "postTime") String sort,
 								@RequestParam(defaultValue = "desc") String desc ,
+								String searchKeyword,
 								Model model) {
 		int size=5;
 		Pageable pageable=null;
+		Page<ItemVo> itemList=null;
 		if(desc.equals("desc")) {
 			pageable=PageRequest.of(page-1, size, Sort.by(sort).descending()); //mysql limit(start,size)			
 		}else if(desc.equals("asc")) {
 			pageable=PageRequest.of(page-1, size, Sort.by(sort).ascending()); //mysql limit(start,size)			
 		}
+		
+		if(searchKeyword == null) {
+			itemList=ir.findAll(pageable);
+        }else {
+            itemList=ir.findByTitleContaining(searchKeyword, pageable);
+        }
 		//모든 jpa 함수에 아무런 제약없이 Pageable를 매개변수로 정의할 수 있고
 		//Iteralbe을 부모로 하고 totalPage nextPage total과 같이 page에 필요한 정보를 수집하는 필드를 갖는 Page를 Return 받을 수 있다.
 		
-		Page<ItemVo> itemList=ir.findAll(pageable);
+		 
 		
 		System.out.println("화면에 출력할 size:"+itemList.getSize());
 		System.out.println("총page 수:"+itemList.getTotalPages());
